@@ -81,7 +81,7 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
     /**
     * @test
     */
-    public function buy_for_books_where_all_are_different_do_twenty_percentage_discount()
+    public function buy_four_books_where_all_are_different_do_twenty_percentage_discount()
     {
         $calculator = new HarryPotterCalculator();
 
@@ -93,13 +93,49 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function buy_for_books_where_all_are_three_are_different()
+    public function buy_four_books_where_three_are_different()
     {
         $calculator = new HarryPotterCalculator();
 
         $total = $calculator->calculate(['first_book', 'second_book', 'third_book', 'third_book']);
 
         static::assertEquals(["29.60", "EUR"], $total);
+    }
+
+    /**
+     * @test
+     */
+    public function buy_for_books_where_two_are_different()
+    {
+        $calculator = new HarryPotterCalculator();
+
+        $total = $calculator->calculate(['first_book', 'third_book', 'third_book', 'third_book']);
+
+        static::assertEquals(["31.20", "EUR"], $total);
+    }
+
+    /**
+    * @test
+    */
+    public function buy_five_books_where_all_are_different_do_twenty_five_percentage_discount()
+    {
+        $calculator = new HarryPotterCalculator();
+
+        $total = $calculator->calculate(['first_book', 'second_book', 'third_book', 'forth_book', 'fifth_book']);
+
+        static::assertEquals(["30", "EUR"], $total);
+    }
+
+    /**
+     * @test
+     */
+    public function buy_two_packs_of_two_different_books()
+    {
+        $calculator = new HarryPotterCalculator();
+
+        $total = $calculator->calculate(['first_book', 'first_book', 'second_book', 'second_book']);
+
+        static::assertEquals(["30.40", "EUR"], $total);
     }
 
 }
