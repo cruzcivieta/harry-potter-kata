@@ -12,6 +12,16 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
     const FOURTH_BOOK = 'fourth_book';
     const FIFTH_BOOK = 'fifth_book';
 
+
+    public function buy_zero_units()
+    {
+        $calculator = $this->createCalculator();
+
+        $total = $calculator->calculate([]);
+
+        static::assertEquals($this->formatExpected('0.00'), $total);
+    }
+
     /**
     * @test
     */
