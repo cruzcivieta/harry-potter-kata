@@ -17,11 +17,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
     */
     public function buy_one_unit()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->anyBook());
 
-        static::assertEquals(["8.00", "EUR"], $total);
+        static::assertEquals($this->formatExpected('8.00'), $total);
     }
 
     /**
@@ -29,11 +29,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function buy_two_equals_unit()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->twoEqualBooks());
 
-        static::assertEquals(["16.00", "EUR"], $total);
+        static::assertEquals($this->formatExpected('16.00'), $total);
     }
 
     /**
@@ -41,11 +41,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
     */
     public function buy_n_equals_units()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->threeEqualBooks());
 
-        static::assertEquals(["24.00", "EUR"], $total);
+        static::assertEquals($this->formatExpected('24.00'), $total);
     }
 
     /**
@@ -53,11 +53,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
     */
     public function buy_two_different_books_then_do_five_percentage_discount()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->fourBookWithTwoDifferentBooks());
 
-        static::assertEquals(["15.20", "EUR"], $total);
+        static::assertEquals($this->formatExpected('15.20'), $total);
     }
 
     /**
@@ -65,11 +65,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function buy_three_different_books_do_ten_percentage_discount()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->threeDifferentBooks());
 
-        static::assertEquals(["21.60", "EUR"], $total);
+        static::assertEquals($this->formatExpected('21.60'), $total);
     }
 
     /**
@@ -77,11 +77,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function buy_three_books_where_two_are_different()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->threeBooksWithOneRepeated());
 
-        static::assertEquals(["23.20", "EUR"], $total);
+        static::assertEquals($this->formatExpected('23.20'), $total);
     }
 
     /**
@@ -89,11 +89,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
     */
     public function buy_four_books_where_all_are_different_do_twenty_percentage_discount()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->fourDifferentBooks());
 
-        static::assertEquals(["25.60", "EUR"], $total);
+        static::assertEquals($this->formatExpected('25.60'), $total);
     }
 
     /**
@@ -101,11 +101,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function buy_four_books_where_three_are_different()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->fourDifferentBooksWithOneRepeated());
 
-        static::assertEquals(["29.60", "EUR"], $total);
+        static::assertEquals($this->formatExpected('29.60'), $total);
     }
 
     /**
@@ -113,11 +113,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function buy_for_books_where_two_are_different()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->twoDifferentBooks());
 
-        static::assertEquals(["31.20", "EUR"], $total);
+        static::assertEquals($this->formatExpected('31.20'), $total);
     }
 
     /**
@@ -125,11 +125,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
     */
     public function buy_five_books_where_all_are_different_do_twenty_five_percentage_discount()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->theCollection());
 
-        static::assertEquals(["30", "EUR"], $total);
+        static::assertEquals($this->formatExpected('30'), $total);
     }
 
     /**
@@ -137,11 +137,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function buy_two_packs_of_two_different_books()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->pairOfDifferentBooks());
 
-        static::assertEquals(["30.40", "EUR"], $total);
+        static::assertEquals($this->formatExpected('30.40'), $total);
     }
 
     /**
@@ -149,11 +149,11 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function buy_kata_example()
     {
-        $calculator = new HarryPotterCalculator();
+        $calculator = $this->createCalculator();
 
         $total = $calculator->calculate($this->anyCombinationOfBooks());
 
-        static::assertEquals(["51.60", "EUR"], $total);
+        static::assertEquals($this->formatExpected('51.60'), $total);
     }
 
     /**
@@ -265,5 +265,22 @@ class HarryPotterCalculatorTest extends \PHPUnit_Framework_TestCase
             self::FOURTH_BOOK,
             self::FIFTH_BOOK
         ];
+    }
+
+    /**
+     * @return HarryPotterCalculator
+     */
+    private function createCalculator()
+    {
+        return new HarryPotterCalculator(new HarryPotterCarManipulator());
+    }
+
+    /**
+     * @param $amount
+     * @return array
+     */
+    private function formatExpected($amount)
+    {
+        return [$amount, 'EUR'];
     }
 }

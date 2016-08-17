@@ -11,8 +11,21 @@ class HarryPotterCalculator
         5 => 0.75,
     ];
 
-
     const NORMAL_PRICE = 8.00;
+
+    /**
+     * @var CarManipulator
+     */
+    protected $manipulator;
+
+    /**
+     * HarryPotterCalculator constructor.
+     * @param CarManipulator $manipulator
+     */
+    public function __construct(CarManipulator $manipulator)
+    {
+        $this->manipulator = $manipulator;
+    }
 
     public function calculate($books)
     {
@@ -36,25 +49,6 @@ class HarryPotterCalculator
     }
 
     /**
-     * @param $books
-     * @param $differentBooks
-     * @return int
-     */
-    private function calculateRest($books, $differentBooks)
-    {
-        return static::NORMAL_PRICE * (count($books) - $this->numberOfBooks($differentBooks));
-    }
-
-    /**
-     * @param $books
-     * @return float
-     */
-    private function calculateBuyWithDifferentBooks($books)
-    {
-        return static::NORMAL_PRICE * count($books);
-    }
-
-    /**
      * @param $differentBooks
      * @return mixed
      */
@@ -68,15 +62,6 @@ class HarryPotterCalculator
     }
 
     /**
-     * @param $books
-     * @return array
-     */
-    private function extractDifferentBooks($books)
-    {
-        return array_unique($books);
-    }
-
-    /**
      * @param $differentBooks
      * @return int
      */
@@ -85,27 +70,15 @@ class HarryPotterCalculator
         return count($differentBooks);
     }
 
-    private function popDifferentBooks($books, $differentBooks)
-    {
-        foreach ($differentBooks as $book) {
-            $pos = array_search($book, $books);
-            if (false !== $pos) {
-                unset($books[$pos]);
-            }
-        }
-
-        return $books;
-    }
-
     private function doCalculate($books)
     {
         if ($this->numberOfBooks($books) === 0) {
             return 0;
         }
 
-        $differentBooks = $this->extractDifferentBooks($books);
+        $differentBooks = $this->manipulator->extractDifferentBooks($books);
         $subtotal = $this->calculateWithDiscount($differentBooks);
 
-        return $subtotal + $this->doCalculate($this->popDifferentBooks($books, $differentBooks));
+        return $subtotal + $this->doCalculate($this->manipulator->popDifferentBooks($books, $differentBooks));
     }
 }
