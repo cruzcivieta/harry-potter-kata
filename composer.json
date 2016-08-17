@@ -1,0 +1,29 @@
+{
+  "name": "cruzcivieta/harry-potter-kata",
+  "description": "Kata Harry Potter",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Cruz",
+      "email": "daniel.cruz.civieta@gmail.com"
+    }
+  ],
+  "require": {
+    "phpunit/phpunit": "5.5.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "CruzCivieta\\": "src/CruzCivieta/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CruzCivieta\\": "tests/CruzCivieta/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin"
+  }
+
+}
